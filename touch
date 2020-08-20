@@ -1,0 +1,13 @@
+call plug#begin('~/.vim/plugged')
+Plug 'dylanaraps/wal.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'mattn/vim-lsp-settings'
+Plug 'rhysd/vim-healthcheck'
+Plug 'vim-airline/vim-airline'
+Plug 'rafi/awesome-vim-colorschemes'
+call plug#end()
+
+colors gruvbox
+
