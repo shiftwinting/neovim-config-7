@@ -4,6 +4,7 @@ let g:airline#extensions#tabline#left_sep = "\ue0c6"
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#right_sep = "\uE0c7"
 let g:airline#extensions#tabline#right_alt_sep = ''
+let g:airline_exclude_filenames = ['coc-explorer'] " see source for current list
 "
 
 set guifont=DroidSansMono\ Nerd\ Font\ 11
