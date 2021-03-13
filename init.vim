@@ -10,16 +10,12 @@ call plug#begin()
     if exists('g:vscode')
 	    Plug 'asvetliakov/vim-easymotion', { 'as': 'vsc-easymotion' }
     else
-	    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	    " htatus line 
 	    Plug 'itchyny/lightline.vim'
-	    Plug 'pablobender/lightline-gruvbox.vim'
 	    Plug 'itchyny/vim-gitbranch'
-	    Plug 'sheerun/vim-polyglot'
 	    Plug 'airblade/vim-gitgutter'
 	    Plug 'tpope/vim-fugitive'
 	    Plug 'mhinz/vim-startify'
-	    Plug 'vim-airline/vim-airline-themes'
 	    Plug 'junegunn/fzf' 
 	    Plug 'junegunn/fzf.vim'
 	    Plug 'stsewd/fzf-checkout.vim'
@@ -29,17 +25,24 @@ call plug#begin()
 	    Plug 'plasticboy/vim-markdown'
 	    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 	    Plug 'norcalli/nvim-colorizer.lua'
-	    Plug 'arcticicestudio/nord-vim'
 	    " Plug 'easymotion/vim-easymotion'
-	    " themes
-	    Plug 'franbach/miramare'
-	    Plug 'drewtempelmeyer/palenight.vim'
-	    Plug  'arzg/vim-colors-xcode'
 	    Plug 'caenrique/nvim-toggle-terminal'
 	    Plug 'vim-scripts/netrw.vim'
 	    Plug 'puremourning/vimspector'
-	    Plug 'joshdick/onedark.vim'
-	    Plug 'hallzy/lightline-'
+	    Plug 'christianchiarulli/nvcode-color-schemes.vim'
+	    Plug 'nvim-treesitter/nvim-treesitter'
+	    Plug 'unblevable/quick-scope'       " Plug
+	    Plug 'justinmk/vim-sneak'
+      " file explorer
+      " requires 
+      Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+      " lsp
+      Plug 'neovim/nvim-lspconfig'
+      Plug 'hrsh7th/nvim-compe'
+      Plug 'anott03/nvim-lspinstall'
+      Plug 'glepnir/lspsaga.nvim'
+      Plug 'onsails/lspkind-nvim'
+      Plug 'alvan/vim-closetag'
     endif
 call plug#end()
 source $HOME/.config/nvim/plug-config/commentary.vim
@@ -54,22 +57,30 @@ if exists('g:vscode')
 	nmap gcc <Plug>VSCodeCommentaryLine
 
 else
-	source $HOME/.config/nvim/plug-config/polyglot.vim
 	source $HOME/.config/nvim/plug-config/toggle-term.vim
 	source $HOME/.config/nvim/plug-config/lightline.vim
-	source $HOME/.config/nvim/plug-config/signify.vim
 	source $HOME/.config/nvim/plug-config/start-screen.vim
-	source $HOME/.config/nvim/plug-config/polyglot.vim
-	source $HOME/.config/nvim/plug-config/coc.vim
 	source $HOME/.config/nvim/plug-config/fzf.vim
 	source $HOME/.config/nvim/plug-config/rnvimr.vim
+	source $HOME/.config/nvim/plug-config/tree-sitter-colorschemes.vim
+	source $HOME/.config/nvim/plug-config/sneak.vim
+	source $HOME/.config/nvim/plug-config/chad.vim
+	source $HOME/.config/nvim/plug-config/gitgutter.vim
+	source $HOME/.config/nvim/plug-config/closetags.vim
+	" source $HOME/.config/nvim/lua/lsp.lua
+	source $HOME/.config/nvim/plug-config/lsp.vim
+	source $HOME/.config/nvim/plug-config/lsp-saga.vim
+  luafile $HOME/.config/nvim/lua/lsp.lua
+	luafile $HOME/.config/nvim/lua/compe-config.lua
+	luafile $HOME/.config/nvim/lua/lsp-saga.lua
+	luafile $HOME/.config/nvim/lua/lsp-kind.lua
+
 	" setup lua
 	lua require'colorizer'.setup()
 	" theming 
 	set number relativenumber
 
 	set background=dark
-	colorscheme nord
 	if (has("nvim"))
 	"For Neovim 0.1.3 and 0.1.4 <
 	" https://github.com/neovim/neovim/pull/2198 >
@@ -83,7 +94,6 @@ else
 endif
 
 
-
 " enable mouse support
 set mouse=a
 " highlight line and column
@@ -94,3 +104,16 @@ highlight LineNr     ctermbg=NONE guibg=NONE
 highlight SignColumn ctermbg=NONE guibg=NONE
 set colorcolumn=120
 let g:mkdp_browser = 'chromium'
+set cmdheight=1
+
+" Identation
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set smartindent
+
+" Trigger a highlight in the appropriate direction when pressing these key:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+" Trigger a highlight only when pressing f and F.
+let g:qs_highlight_on_keys = ['f', 'F']
+
