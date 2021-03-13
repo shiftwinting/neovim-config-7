@@ -2,7 +2,6 @@ if !exists('g:vscode')
 	let mapleader = " "
 endif
 " plugins
-
 call plug#begin()
     Plug 'tpope/vim-commentary'
     Plug 'asvetliakov/vim-easymotion'
@@ -50,8 +49,8 @@ call plug#begin()
       Plug 'nvim-telescope/telescope.nvim'
       Plug 'nvim-telescope/telescope-fzy-native.nvim'
       Plug 'airblade/vim-rooter'
-      
-endif
+      Plug 'p00f/nvim-ts-rainbow'
+      endif
 call plug#end()
 source $HOME/.config/nvim/plug-config/commentary.vim
 if (has("termguicolors"))
@@ -81,7 +80,7 @@ else
 	luafile $HOME/.config/nvim/lua/compe-config.lua
 	luafile $HOME/.config/nvim/lua/lsp-saga.lua
 	luafile $HOME/.config/nvim/lua/lsp-kind.lua
-	" luafile $HOME/.config/nvim/lua/telescope.lua
+	luafile $HOME/.config/nvim/telescope.lua
 	source $HOME/.config/nvim/plug-config/telescope.vim
 
 	" setup lua
@@ -128,66 +127,11 @@ let g:qs_highlight_on_keys = ['f', 'F']
 let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
 
 lua << EOF
-require('telescope').setup{
-  defaults = {
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case'
-    },
-    prompt_position = "bottom",
-    prompt_prefix = "> ",
-    selection_caret = "> ",
-    entry_prefix = "  ",
-    initial_mode = "insert",
-    selection_strategy = "reset",
-    sorting_strategy = "descending",
-    layout_strategy = "horizontal",
-    layout_defaults = {
-      horizontal = {
-        mirror = false,
-      },
-      vertical = {
-        mirror = false,
-      },
-    },
-    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = {},
-    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    shorten_path = true,
-    winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
-    border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-    color_devicons = true,
-    use_less = true,
-    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-
-    -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+require'nvim-treesitter.configs'.setup {
+  rainbow = {
+    enable = true
   }
 }
-
-local M = {}
-M.git_branches = function()
-    require("telescope.builtin").git_branches({
-        attach_mappings = function(_, map)
-            map('i', '<c-d>', actions.git_delete_branch)
-            map('n', '<c-d>', actions.git_delete_branch)
-            return true
-        end
-    })
-end
-
-return M
 EOF
+
+
