@@ -12,8 +12,8 @@ call plug#begin()
 	    " htatus line 
 	    Plug 'itchyny/lightline.vim'
 	    Plug 'itchyny/vim-gitbranch'
-	    Plug 'airblade/vim-gitgutter'
-	    Plug 'tpope/vim-fugitive'
+	    Plug 'airblade/vim-gitgutter' 
+		Plug 'tpope/vim-fugitive'
 	    Plug 'mhinz/vim-startify'
 	    Plug 'airblade/vim-rooter'
 	    Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
@@ -32,12 +32,12 @@ call plug#begin()
       " file explorer
       " requires 
       Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-      " lsp
-      Plug 'neovim/nvim-lspconfig'
-      Plug 'hrsh7th/nvim-compe'
-      Plug 'anott03/nvim-lspinstall'
-      Plug 'glepnir/lspsaga.nvim'
-      Plug 'onsails/lspkind-nvim'
+      " lsp enable without coc
+      " Plug 'neovim/nvim-lspconfig'
+      " Plug 'hrsh7th/nvim-compe'
+      " Plug 'anott03/nvim-lspinstall'
+      " Plug 'glepnir/lspsaga.nvim'
+      " Plug 'onsails/lspkind-nvim'
       Plug 'alvan/vim-closetag'
       Plug 'jiangmiao/auto-pairs'
       " try alternative file explorer
@@ -51,7 +51,7 @@ call plug#begin()
       Plug 'airblade/vim-rooter'
       Plug 'p00f/nvim-ts-rainbow'
       " prettier
-      Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
       Plug 'knubie/vim-kitty-navigator'
       endif
 call plug#end()
@@ -76,13 +76,16 @@ else
 	source $HOME/.config/nvim/plug-config/chad.vim
 	source $HOME/.config/nvim/plug-config/gitgutter.vim
 	source $HOME/.config/nvim/plug-config/closetags.vim
+  " settings for coc
+	source $HOME/.config/nvim/plug-config/coc.vim
+  " lsp enable without coc
 	" source $HOME/.config/nvim/lua/lsp.lua
-	source $HOME/.config/nvim/plug-config/lsp.vim
-	source $HOME/.config/nvim/plug-config/lsp-saga.vim
-  luafile $HOME/.config/nvim/lua/lsp.lua
-	luafile $HOME/.config/nvim/lua/compe-config.lua
-	luafile $HOME/.config/nvim/lua/lsp-saga.lua
-	luafile $HOME/.config/nvim/lua/lsp-kind.lua
+	" source $HOME/.config/nvim/plug-config/lsp.vim
+	" source $HOME/.config/nvim/plug-config/lsp-saga.vim
+  " luafile $HOME/.config/nvim/lua/lsp.lua
+	" luafile $HOME/.config/nvim/lua/compe-config.lua
+	" luafile $HOME/.config/nvim/lua/lsp-saga.lua
+	" luafile $HOME/.config/nvim/lua/lsp-kind.lua
 	luafile $HOME/.config/nvim/telescope.lua
 	source $HOME/.config/nvim/plug-config/telescope.vim
 
@@ -101,10 +104,20 @@ else
 
 
 	" tags 
-	nmap <F8> :TagbarToggle<CR>
+
+
+		let g:kitty_navigator_no_mappings = 1
+		set title
+		let &titlestring='%t - nvim'
+
+		nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
+		nnoremap <silent> <c-j> :KittyNavigateDown<cr>
+		nnoremap <silent> <c-k> :KittyNavigateUp<cr>
+		nnoremap <silent> <c-l> :KittyNavigateRight<cr>
+
 endif
 
-
+nmap <F8> :TagbarToggle<CR>
 " enable mouse support
 set mouse=a
 " highlight line and column
@@ -132,17 +145,7 @@ let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   rainbow = {
-    enable = true
+	enable = true
   }
 }
 EOF
-
-
-let g:kitty_navigator_no_mappings = 1
-set title
-let &titlestring='%t - nvim'
-
-nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
-nnoremap <silent> <c-j> :KittyNavigateDown<cr>
-nnoremap <silent> <c-k> :KittyNavigateUp<cr>
-nnoremap <silent> <c-l> :KittyNavigateRight<cr>
