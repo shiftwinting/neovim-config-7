@@ -3,25 +3,16 @@
     "css",
     "markdown",
     "javascript",
+    "typescriptreact",
+    "typescript",
+    "javascriptreact",
     "graphql",
     "html",
     "yaml",
     "scss",
     "json"
   ],
-  // python config
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  "python.jediEnabled": false,
-  "snippets.ultisnips.directories": ["UltiSnips", "~/.config/nvim/utils/snips"],
-  // explorer
-  "explorer.width": 35,
-  "explorer.icon.enableNerdfont": true,
-  "explorer.previewAction.onHover": true,
-  "explorer.keyMappings": {
-    "<cr>": ["expandable?", "expand", "open"],
-    "v": "open:vsplit"
-  },
-  // html
-  "html.autoClosingTags": true
+  "diagnostic.enable": false,
+  "suggest.autoTrigger": "none",
+  "suggest.timeout": 1
 }

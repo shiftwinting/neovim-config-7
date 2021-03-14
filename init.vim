@@ -50,6 +50,9 @@ call plug#begin()
       Plug 'nvim-telescope/telescope-fzy-native.nvim'
       Plug 'airblade/vim-rooter'
       Plug 'p00f/nvim-ts-rainbow'
+      " prettier
+      Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      Plug 'knubie/vim-kitty-navigator'
       endif
 call plug#end()
 source $HOME/.config/nvim/plug-config/commentary.vim
@@ -135,3 +138,11 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 
+let g:kitty_navigator_no_mappings = 1
+set title
+let &titlestring='%t - nvim'
+
+nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
+nnoremap <silent> <c-j> :KittyNavigateDown<cr>
+nnoremap <silent> <c-k> :KittyNavigateUp<cr>
+nnoremap <silent> <c-l> :KittyNavigateRight<cr>
