@@ -31,7 +31,7 @@ call plug#begin()
 	    Plug 'justinmk/vim-sneak'
       " file explorer
       " requires 
-      Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+      " Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
       " lsp enable without coc
       " Plug 'neovim/nvim-lspconfig'
       " Plug 'hrsh7th/nvim-compe'
@@ -73,7 +73,7 @@ else
 	source $HOME/.config/nvim/plug-config/rnvimr.vim
 	source $HOME/.config/nvim/plug-config/tree-sitter-colorschemes.vim
 	source $HOME/.config/nvim/plug-config/sneak.vim
-	source $HOME/.config/nvim/plug-config/chad.vim
+	" source $HOME/.config/nvim/plug-config/chad.vim
 	source $HOME/.config/nvim/plug-config/gitgutter.vim
 	source $HOME/.config/nvim/plug-config/closetags.vim
   " settings for coc
@@ -114,6 +114,9 @@ else
 		nnoremap <silent> <c-j> :KittyNavigateDown<cr>
 		nnoremap <silent> <c-k> :KittyNavigateUp<cr>
 		nnoremap <silent> <c-l> :KittyNavigateRight<cr>
+    "splitting windows
+		nnoremap <silent> <leader>s :split<cr>
+		nnoremap <silent> <leader>v :vsplit<cr>
 
 endif
 
