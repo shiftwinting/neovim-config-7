@@ -14,7 +14,7 @@ let g:lightline = {
 	    \ },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch','virtualenv', 'readonly', 'filename', 'modified' ] ],
+      \             [ 'gitbranch'],['virtualenv', 'readonly', 'filename'], [ 'modified' ] ],
       \   'right': [ [ 'lineinfo' ],
       \            [ 'percent' ],
       \            ['fileencoding'] ]},
@@ -26,6 +26,7 @@ let g:lightline = {
       \ }
 let g:lightline.colorscheme = 'nord'
 let g:lightline.separator = {'left': "\ue0b4", 'right':"\uE0b6"}
+
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
   let path = expand('%:p')

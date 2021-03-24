@@ -11,6 +11,7 @@ call plug#begin()
     else
 	    " htatus line 
 	    Plug 'itchyny/lightline.vim'
+      " Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 	    Plug 'itchyny/vim-gitbranch'
 	    Plug 'airblade/vim-gitgutter' 
 		Plug 'tpope/vim-fugitive'
@@ -40,6 +41,7 @@ call plug#begin()
       " Plug 'onsails/lspkind-nvim'
       Plug 'alvan/vim-closetag'
       Plug 'jiangmiao/auto-pairs'
+      Plug 'kkvh/vim-docker-tools'
       " try alternative file explorer
       Plug 'kyazdani42/nvim-web-devicons' " for file icons
       " Plug 'kyazdani42/nvim-tree.lua'
@@ -53,7 +55,7 @@ call plug#begin()
       " prettier
       Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
       Plug 'knubie/vim-kitty-navigator'
-      endif
+endif
 call plug#end()
 source $HOME/.config/nvim/plug-config/commentary.vim
 if (has("termguicolors"))
@@ -86,6 +88,7 @@ else
 	" luafile $HOME/.config/nvim/lua/compe-config.lua
 	" luafile $HOME/.config/nvim/lua/lsp-saga.lua
 	" luafile $HOME/.config/nvim/lua/lsp-kind.lua
+	" luafile $HOME/.config/nvim/lua/galaxyline.lua
 	luafile $HOME/.config/nvim/telescope.lua
 	source $HOME/.config/nvim/plug-config/telescope.vim
 
@@ -125,10 +128,9 @@ nmap <F8> :TagbarToggle<CR>
 set mouse=a
 " highlight line and column
 set cursorline
-set cursorcolumn
-highlight Normal     ctermbg=NONE guibg=NONE
-highlight LineNr     ctermbg=NONE guibg=NONE
-highlight SignColumn ctermbg=NONE guibg=NONE
+" highlight Normal     ctermbg=NONE guibg=NONE
+" highlight LineNr     ctermbg=NONE guibg=NONE
+" highlight SignColumn ctermbg=NONE guibg=NONE
 set colorcolumn=120
 let g:mkdp_browser = 'chromium'
 set cmdheight=1

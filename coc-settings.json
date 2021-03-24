@@ -1,4 +1,7 @@
 {
+  "python.jediEnabled": false,
+  "codeLens.enable": false,
+  "codeLens.separator": "",
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
@@ -43,8 +46,11 @@
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,
   "explorer.previewAction.onHover": false,
+  "git.addGBlameToVirtualText": true,
+  "git.enableGutters": false,
   "explorer.keyMappings.global": {
     "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit"
-  }
+  },
+  "git.enableGlobalStatus": false
 }
