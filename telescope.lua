@@ -61,3 +61,6 @@ require('telescope').setup {
         }
     },
 }
+ vim.cmd[[
+autocmd ColorScheme * lua require'nvim-web-devicons'.setup()
+]]

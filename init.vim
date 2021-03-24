@@ -10,7 +10,7 @@ call plug#begin()
 	    Plug 'asvetliakov/vim-easymotion', { 'as': 'vsc-easymotion' }
     else
 	    " htatus line 
-	    Plug 'itchyny/lightline.vim'
+      Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 	    Plug 'itchyny/vim-gitbranch'
 	    Plug 'airblade/vim-gitgutter'
 	    Plug 'tpope/vim-fugitive'
@@ -79,10 +79,11 @@ else
 	" source $HOME/.config/nvim/lua/lsp.lua
 	source $HOME/.config/nvim/plug-config/lsp.vim
 	source $HOME/.config/nvim/plug-config/lsp-saga.vim
-  luafile $HOME/.config/nvim/lua/lsp.lua
+  luafile $HOME/.config/nvim/lua/lsp_conf.lua
 	luafile $HOME/.config/nvim/lua/compe-config.lua
 	luafile $HOME/.config/nvim/lua/lsp-saga.lua
 	luafile $HOME/.config/nvim/lua/lsp-kind.lua
+	luafile $HOME/.config/nvim/lua/statusline.lua
 	luafile $HOME/.config/nvim/telescope.lua
 	source $HOME/.config/nvim/plug-config/telescope.vim
 
