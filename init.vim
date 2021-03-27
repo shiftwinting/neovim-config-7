@@ -12,9 +12,9 @@ call plug#begin()
 	    " htatus line 
       Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 	    Plug 'itchyny/vim-gitbranch'
-	    Plug 'airblade/vim-gitgutter'
 	    Plug 'tpope/vim-fugitive'
 	    Plug 'mhinz/vim-startify'
+      Plug 'mhinz/vim-signify'
 	    Plug 'airblade/vim-rooter'
 	    Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 	    Plug 'majutsushi/tagbar'
@@ -35,14 +35,13 @@ call plug#begin()
       " lsp
       Plug 'neovim/nvim-lspconfig'
       Plug 'hrsh7th/nvim-compe'
-      Plug 'anott03/nvim-lspinstall'
+      Plug 'kabouzeid/nvim-lspinstall'
       Plug 'glepnir/lspsaga.nvim'
       Plug 'onsails/lspkind-nvim'
       Plug 'alvan/vim-closetag'
       Plug 'jiangmiao/auto-pairs'
       " try alternative file explorer
       Plug 'kyazdani42/nvim-web-devicons' " for file icons
-      " Plug 'kyazdani42/nvim-tree.lua'
       " telescope requirements...
       Plug 'nvim-lua/popup.nvim'
       Plug 'nvim-lua/plenary.nvim'
@@ -51,7 +50,6 @@ call plug#begin()
       Plug 'airblade/vim-rooter'
       Plug 'p00f/nvim-ts-rainbow'
       " prettier
-      Plug 'neoclide/coc.nvim', {'branch': 'release'}
       Plug 'knubie/vim-kitty-navigator'
       endif
 call plug#end()
@@ -68,13 +66,12 @@ if exists('g:vscode')
 
 else
 	source $HOME/.config/nvim/plug-config/toggle-term.vim
-	source $HOME/.config/nvim/plug-config/lightline.vim
 	source $HOME/.config/nvim/plug-config/start-screen.vim
 	source $HOME/.config/nvim/plug-config/rnvimr.vim
 	source $HOME/.config/nvim/plug-config/tree-sitter-colorschemes.vim
+	source $HOME/.config/nvim/plug-config/signify.vim
 	source $HOME/.config/nvim/plug-config/sneak.vim
 	source $HOME/.config/nvim/plug-config/chad.vim
-	source $HOME/.config/nvim/plug-config/gitgutter.vim
 	source $HOME/.config/nvim/plug-config/closetags.vim
 	" source $HOME/.config/nvim/lua/lsp.lua
 	source $HOME/.config/nvim/plug-config/lsp.vim
@@ -110,10 +107,10 @@ endif
 set mouse=a
 " highlight line and column
 set cursorline
-set cursorcolumn
 highlight Normal     ctermbg=NONE guibg=NONE
 highlight LineNr     ctermbg=NONE guibg=NONE
 highlight SignColumn ctermbg=NONE guibg=NONE
+set noshowmode
 set colorcolumn=120
 let g:mkdp_browser = 'chromium'
 set cmdheight=1
@@ -131,10 +128,7 @@ let g:qs_highlight_on_keys = ['f', 'F']
 let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
 
 lua << EOF
-require'nvim-treesitter.configs'.setup {
-  rainbow = {
-    enable = true
-  }
+  require'nvim-treesitter.configs'.setup {
 }
 EOF
 

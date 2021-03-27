@@ -1,3 +1,4 @@
+local condition = require('galaxyline.condition')
 local testing = require('testing')
 local gl = require('galaxyline')
 local themes = require('themes')
@@ -24,7 +25,7 @@ local active_lsp = function()
     return '鷺' .. active_client.name
   end
 
-  return '鷺------'
+  return '鷺 N/A'
 end
 
 local testing_results = function()
@@ -103,15 +104,8 @@ gls.left[1] = {
   }
 }
 
-gls.left[2] = {
-  FileSize = {
-    provider = 'FileSize',
-    condition = buffer_not_empty,
-    highlight = {colors.fg, colors.bg}
-  }
-}
 
-gls.left[3] ={
+gls.left[2] ={
   FileIcon = {
     provider = 'FileIcon',
     condition = buffer_not_empty,
@@ -119,7 +113,7 @@ gls.left[3] ={
   }
 }
 
-gls.left[4] = {
+gls.left[3] = {
   FileName = {
     provider = {'FileName'},
     condition = buffer_not_empty,
@@ -127,7 +121,8 @@ gls.left[4] = {
   }
 }
 
-gls.left[5] = {
+
+gls.left[4] = {
   LineInfo = {
     provider = 'LineColumn',
     separator = ' ',
@@ -139,15 +134,32 @@ gls.left[5] = {
 -- RIGHT
 -----------------------------------------------------------
 gls.right[1] = {
-  TestResults = {
-    provider = testing_results,
-    separator = '  ',
-    separator_highlight = {'NONE',colors.bg},
-    highlight = {colors.yellow, colors.bg}
-  }
+    DiffAdd = {
+        provider = 'DiffAdd',
+        condition = condition.hide_in_width,
+        icon = '  ',
+        highlight = {colors.green, colors.bg}
+    }
 }
 
 gls.right[2] = {
+    DiffModified = {
+        provider = 'DiffModified',
+        condition = condition.hide_in_width,
+        icon = ' 柳',
+        highlight = {colors.blue, colors.bg}
+    }
+}
+gls.right[3] = {
+    DiffRemove = {
+        provider = 'DiffRemove',
+        condition = condition.hide_in_width,
+        icon = '  ',
+        highlight = {colors.red, colors.bg}
+    }
+}
+
+gls.right[4] = {
   LanguageServer = {
     provider = active_lsp,
     separator = '  ',
@@ -156,7 +168,7 @@ gls.right[2] = {
   }
 }
 
-gls.right[3] = {
+gls.right[5] = {
   GitIcon = {
     provider = function() return ' ' end,
     condition = require('galaxyline.provider_vcs').check_git_workspace,
@@ -166,14 +178,13 @@ gls.right[3] = {
   }
 }
 
-gls.right[4] = {
+gls.right[6] = {
   GitBranch = {
     provider = 'GitBranch',
     condition = require('galaxyline.provider_vcs').check_git_workspace,
     highlight = {colors.purple,colors.bg}
   }
 }
-
 -- SHORTLINE
 -----------------------------------------------------------
 gls.short_line_left[1] = {
