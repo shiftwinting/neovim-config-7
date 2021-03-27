@@ -17,7 +17,6 @@ call plug#begin()
       Plug 'mhinz/vim-signify'
 	    Plug 'airblade/vim-rooter'
 	    Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
-	    Plug 'majutsushi/tagbar'
 	    Plug 'plasticboy/vim-markdown'
 	    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 	    Plug 'norcalli/nvim-colorizer.lua'
@@ -75,14 +74,12 @@ else
 	source $HOME/.config/nvim/plug-config/closetags.vim
 	" source $HOME/.config/nvim/lua/lsp.lua
 	source $HOME/.config/nvim/plug-config/lsp.vim
-	source $HOME/.config/nvim/plug-config/lsp-saga.vim
   luafile $HOME/.config/nvim/lua/lsp_conf.lua
 	luafile $HOME/.config/nvim/lua/compe-config.lua
 	luafile $HOME/.config/nvim/lua/lsp-saga.lua
 	luafile $HOME/.config/nvim/lua/lsp-kind.lua
 	luafile $HOME/.config/nvim/lua/statusline.lua
 	luafile $HOME/.config/nvim/telescope.lua
-	source $HOME/.config/nvim/plug-config/telescope.vim
 
 	" setup lua
 	lua require'colorizer'.setup()
@@ -96,10 +93,17 @@ else
 
 		let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 	endif
+  let g:kitty_navigator_no_mappings = 1
+  set title
+  let &titlestring='%t - nvim'
 
-
-	" tags 
-	nmap <F8> :TagbarToggle<CR>
+  nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
+  nnoremap <silent> <c-j> :KittyNavigateDown<cr>
+  nnoremap <silent> <c-k> :KittyNavigateUp<cr>
+  nnoremap <silent> <c-l> :KittyNavigateRight<cr>
+  " Window Management
+  nnoremap <silent> <leader>s :split<cr>
+  nnoremap <silent> <leader>v :vsplit<cr>
 endif
 
 
@@ -107,9 +111,6 @@ endif
 set mouse=a
 " highlight line and column
 set cursorline
-highlight Normal     ctermbg=NONE guibg=NONE
-highlight LineNr     ctermbg=NONE guibg=NONE
-highlight SignColumn ctermbg=NONE guibg=NONE
 set noshowmode
 set colorcolumn=120
 let g:mkdp_browser = 'chromium'
@@ -133,11 +134,5 @@ lua << EOF
 EOF
 
 
-let g:kitty_navigator_no_mappings = 1
-set title
-let &titlestring='%t - nvim'
-
-nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
-nnoremap <silent> <c-j> :KittyNavigateDown<cr>
-nnoremap <silent> <c-k> :KittyNavigateUp<cr>
-nnoremap <silent> <c-l> :KittyNavigateRight<cr>
+source $HOME/.config/nvim/plug-config/lsp-saga.vim
+source $HOME/.config/nvim/plug-config/telescope.vim

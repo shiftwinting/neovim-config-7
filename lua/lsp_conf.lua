@@ -44,6 +44,13 @@ local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath
 
 local prettier_global = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
 local black = {formatCommand = "isort --stdout --profile black -", formatStdin=true}
+local eslint = {
+  lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}",
+  lintStdin = true,
+  lintFormats = {"%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m"},
+  lintIgnoreExitCode = true,
+  formatStdin = false
+}
 
 
 require"lspconfig".efm.setup {
@@ -58,10 +65,10 @@ require"lspconfig".efm.setup {
             python = {black},
             -- javascriptreact = {prettier, eslint},
             -- javascript = {prettier, eslint},
-            javascriptreact = {prettier},
-            javascript = {prettier},
-            typescriptreact = {prettier},
-            typescript = {prettier},
+            javascriptreact = {eslint, prettier},
+            javascript = {eslint, prettier},
+            typescriptreact = {eslint, prettier},
+            typescript = {eslint, prettier},
             sh = {shellcheck, shfmt},
             html = {prettier_global},
             css = {prettier_global},
@@ -86,8 +93,7 @@ require"lspconfig".efm.setup {
 -- require'illuminate'.on_attach(client)
 -- end
 require'lspconfig'.tsserver.setup {
-    -- cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
-    cmd = {'typescript-language-server', "--stdio"},
+    cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
     on_attach = lsp_config.common_on_attach,
     settings = {documentFormatting = false}
 }
@@ -118,6 +124,15 @@ require'lspconfig'.sumneko_lua.setup {
         }
     }
 }
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = false,
+    underline = true,
+    signs = true,
+  }
+)
+vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
+vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 
 -- Python
 require'lspconfig'.pyright.setup {
@@ -136,9 +151,9 @@ require'lspconfig'.pyright.setup {
 
 
 -- Format Options
-vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1000)")
-vim.cmd("autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)")
-vim.cmd("autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1000)")
-vim.cmd("autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1000)")
-vim.cmd("autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)")
-
+vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("nnoremap <silent><leader>bf :lua vim.lsp.buf.formatting()<cr>")
