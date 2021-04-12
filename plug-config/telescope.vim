@@ -6,11 +6,11 @@ nnoremap <leader>pw :lua require('telescope.builtin').grep_string { search = vim
 nnoremap <leader>gc :lua require('telescope.builtin').git_branches()<CR>
 
 " highlight
-highlight TelescopeSelection      guifg=#EBCB8B gui=bold " selected item
-highlight TelescopeSelectionCaret guifg=#B48EAD " selection caret
+highlight TelescopeSelection      guifg=#d8a657 gui=bold " selected item
+highlight TelescopeSelectionCaret guifg=#d3869b " selection caret
 highlight TelescopeMultiSelection guifg=#928374 " multisections
 
-highlight TelescopeBorder         guifg=#88C0D0 ctermfg=10
-highlight TelescopePromptBorder   guifg=#88C0D0
-highlight TelescopeResultsBorder  guifg=#88C0D0
-highlight TelescopePreviewBorder  guifg=#88C0D0
+highlight TelescopeBorder         guifg=#ddc7a1 ctermfg=10
+highlight TelescopePromptBorder   guifg=#ddc7a1
+highlight TelescopeResultsBorder  guifg=#ddc7a1
+highlight TelescopePreviewBorder  guifg=#ddc7a1

@@ -13,7 +13,8 @@ EOF
 let g:nvcode_termcolors=256
 
 syntax on
-colorscheme nord " Or whatever colorscheme you make
+colorscheme gruvbox-material " Or whatever colorscheme you make
+let g:gruvbox_material_enable_italic = 1
 
 
 " checks if your terminal has 24-bit color support

@@ -9,13 +9,13 @@ nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<
 nnoremap <silent><leader>ca :Lspsaga code_action<CR>
 nnoremap <silent>rn :Lspsaga rename<CR>
 
-highlight LspSagaBorderTitle guifg=#88C0D0
-highlight LspSagaRenameBorder guifg=#88C0D0
-highlight LspSagaHoverBorder guifg=#88C0D0
-highlight LspSagaSignatureHelpBorder guifg=#88C0D0
-highlight LspSagaCodeActionBorder guifg=#88C0D0	
-highlight LspSagaAutoPreview guifg=#88C0D0
-highlight LspSagaDefPreviewBorder guifg=#88C0D0	
-highlight LspSagaDiagnosticBorder guifg=#88C0D0
-highlight LspFloatWinBorder guifg=#88C0D0
-highlight LspSagaDiagnosticTruncateLine guifg=#88C0D0
+highlight LspSagaBorderTitle guifg=#ddc7a1
+highlight LspSagaRenameBorder guifg=#ddc7a1
+highlight LspSagaHoverBorder guifg=#ddc7a1
+highlight LspSagaSignatureHelpBorder guifg=#ddc7a1
+highlight LspSagaCodeActionBorder guifg=#ddc7a1	
+highlight LspSagaAutoPreview guifg=#ddc7a1
+highlight LspSagaDefPreviewBorder guifg=#ddc7a1	
+highlight LspSagaDiagnosticBorder guifg=#ddc7a1
+highlight LspFloatWinBorder guifg=#ddc7a1
+highlight LspSagaDiagnosticTruncateLine guifg=#ddc7a1

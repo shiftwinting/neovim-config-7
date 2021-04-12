@@ -17,11 +17,32 @@ end
 
 local lsp_config = {}
 
+vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
+    if err ~= nil or result == nil then return end
+    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
+        local view = vim.fn.winsaveview()
+        vim.lsp.util.apply_text_edits(result, bufnr)
+        vim.fn.winrestview(view)
+        if bufnr == vim.api.nvim_get_current_buf() then vim.api.nvim_command("noautocmd :update") end
+    end
+end
+
 function lsp_config.common_on_attach(client, bufnr)
+    if client.resolved_capabilities.document_formatting then
+        vim.api.nvim_command [[augroup Format]]
+        vim.api.nvim_command [[autocmd! * <buffer>]]
+        vim.api.nvim_command [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
+        vim.api.nvim_command [[augroup END]]
+    end
     documentHighlight(client, bufnr)
 end
 
 function lsp_config.tsserver_on_attach(client, bufnr)
+   require("nvim-lsp-ts-utils").setup {
+            -- defaults
+            disable_commands = false,
+            enable_import_on_completion = false
+        }
     lsp_config.common_on_attach(client, bufnr)
     client.resolved_capabilities.document_formatting = false
 end
@@ -31,7 +52,6 @@ end
 -- local servers = {"pyright", "tsserver"}
 -- for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup {on_attach = on_attach} end
 
-
 local DATA_PATH = vim.fn.stdpath('data')
 local CACHE_PATH = vim.fn.stdpath('cache')
 -- formatter
@@ -40,29 +60,38 @@ local flake8 = {
     lintStdin = true,
     lintFormats = {"%f:%l:%c: %m"}
 }
+
 local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}
 
 local prettier_global = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
-local black = {formatCommand = "isort --stdout --profile black -", formatStdin=true}
+-- local black = {formatCommand = "black --quiet -", formatStdin = true}
+local isort = {formatCommand = "black --quiet -", formatStdin = true}
 local eslint = {
-  lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}",
-  lintStdin = true,
-  lintFormats = {"%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m"},
-  lintIgnoreExitCode = true,
-  formatStdin = false
+    lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}",
+    lintStdin = true,
+    lintFormats = {"%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m"},
+    lintIgnoreExitCode = true,
+    formatStdin = false
 }
 
+local luaFormat = {
+    formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
+    formatStdin = true
+}
 
 require"lspconfig".efm.setup {
     -- init_options = {initializationOptions},
     cmd = {"/home/dim/go/bin/efm-langserver"},
     init_options = {documentFormatting = true, codeAction = false},
-    filetypes = {"lua", "python", "javascriptreact", "javascript", "typescript", "typescriptreact", "sh", "html", "css", "json", "yaml", "markdown"},
+    filetypes = {
+        "lua", "python", "javascriptreact", "javascript", "typescript", "typescriptreact", "sh", "html", "css", "json",
+        "yaml", "markdown"
+    },
     settings = {
         rootMarkers = {".git/"},
         languages = {
             lua = {luaFormat},
-            python = {black},
+            python = {flake8, isort},
             -- javascriptreact = {prettier, eslint},
             -- javascript = {prettier, eslint},
             javascriptreact = {eslint, prettier},
@@ -94,7 +123,7 @@ require"lspconfig".efm.setup {
 -- end
 require'lspconfig'.tsserver.setup {
     cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
-    on_attach = lsp_config.common_on_attach,
+    on_attach = lsp_config.tsserver_on_attach,
     settings = {documentFormatting = false}
 }
 
@@ -124,36 +153,25 @@ require'lspconfig'.sumneko_lua.setup {
         }
     }
 }
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = false,
     underline = true,
-    signs = true,
-  }
-)
+    signs = true
+})
 vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
 vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 
 -- Python
 require'lspconfig'.pyright.setup {
     cmd = {DATA_PATH .. "/lspinstall/python/node_modules/.bin/pyright-langserver", "--stdio"},
-    on_attach = lsp_config.common_on_attach,
-    handlers = {
-        ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-            virtual_text = true,
-            signs =true,
-            underline = true,
-            update_in_insert = true
-
-        })
-    }
+    on_attach = lsp_config.common_on_attach
 }
 
-
 -- Format Options
-vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
-vim.cmd("autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1200)")
-vim.cmd("autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1200)")
-vim.cmd("autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
+-- vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
+-- vim.cmd("autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1200)")
+-- vim.cmd("autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1200)")
+-- vim.cmd("autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
 vim.cmd("autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 1200)")
 vim.cmd("nnoremap <silent><leader>bf :lua vim.lsp.buf.formatting()<cr>")

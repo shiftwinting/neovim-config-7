@@ -50,7 +50,15 @@ call plug#begin()
       Plug 'p00f/nvim-ts-rainbow'
       " prettier
       Plug 'knubie/vim-kitty-navigator'
-      endif
+      " tag
+      Plug 'AndrewRadev/tagalong.vim'
+      Plug 'sainnhe/gruvbox-material'
+      " lsp utils
+      Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+      " show tags in lsp
+      Plug 'liuchengxu/vista.vim'
+    endif
+
 call plug#end()
 source $HOME/.config/nvim/plug-config/commentary.vim
 if (has("termguicolors"))
