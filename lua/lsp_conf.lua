@@ -43,8 +43,8 @@ function lsp_config.tsserver_on_attach(client, bufnr)
             disable_commands = false,
             enable_import_on_completion = false
         }
-    lsp_config.common_on_attach(client, bufnr)
     client.resolved_capabilities.document_formatting = false
+    lsp_config.common_on_attach(client, bufnr)
 end
 
 -- Use a loop to conveniently both setup defined servers
@@ -168,10 +168,10 @@ require'lspconfig'.pyright.setup {
 }
 
 -- Format Options
--- vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
--- vim.cmd("autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1200)")
--- vim.cmd("autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1200)")
--- vim.cmd("autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1200)")
+vim.cmd("autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
 vim.cmd("autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1200)")
 vim.cmd("autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 1200)")
 vim.cmd("nnoremap <silent><leader>bf :lua vim.lsp.buf.formatting()<cr>")

@@ -11,8 +11,9 @@ let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git att
 let g:nvim_tree_root_folder_modifier = ':r' "This is the default. See :help filename-modifiers for more options
 let g:nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
 let g:nvim_tree_width_allow_resize  = 1 "0 by default, will not resize the tree when opening a file
-let g:nvim_tree_disable_netrw = 1 "1 by default, disables netrw
+let g:nvim_tree_disable_netrw = 0 "1 by default, disables netrw
 let g:nvim_tree_hijack_netrw = 1 "1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
+let g:nvim_tree_lsp_diagnostics = 1 "0 by default, will show lsp diagnostics in the tree. See :help nvim_tree_lsp_diagnostics
 let g:nvim_tree_show_icons = {
     \ 'git': 1,
     \ 'folders': 1,
@@ -50,14 +51,10 @@ nnoremap <leader>n :NvimTreeFindFile<CR>
 
 set termguicolors " this variable must be enabled for colors to be applied properly
 
-" a list of groups can be found at `:help nvim_tree_highlight`
-highlight NvimTreeFolderIcon guibg=None
 
 lua <<EOF
     local tree_cb = require'nvim-tree.config'.nvim_tree_callback
     vim.g.nvim_tree_bindings = {
-      ["<CR>"] = ":YourVimFunction()<cr>",
-      ["u"] = ":lua require'some_module'.some_function()<cr>",
 
       -- default mappings
       ["<CR>"]           = tree_cb("edit"),

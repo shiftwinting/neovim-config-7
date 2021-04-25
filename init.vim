@@ -57,6 +57,10 @@ call plug#begin()
       Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
       " show tags in lsp
       Plug 'liuchengxu/vista.vim'
+      Plug 'APZelos/blamer.nvim'
+      Plug 'kyazdani42/nvim-tree.lua'
+      Plug 'akinsho/nvim-bufferline.lua'
+      Plug 'tpope/vim-abolish'
     endif
 
 call plug#end()
@@ -78,7 +82,8 @@ else
 	source $HOME/.config/nvim/plug-config/tree-sitter-colorschemes.vim
 	source $HOME/.config/nvim/plug-config/signify.vim
 	source $HOME/.config/nvim/plug-config/sneak.vim
-	source $HOME/.config/nvim/plug-config/chad.vim
+	" source $HOME/.config/nvim/plug-config/chad.vim
+	source $HOME/.config/nvim/plug-config/nvim-tree.vim
 	source $HOME/.config/nvim/plug-config/closetags.vim
 	" source $HOME/.config/nvim/lua/lsp.lua
 	source $HOME/.config/nvim/plug-config/lsp.vim
@@ -88,12 +93,13 @@ else
 	luafile $HOME/.config/nvim/lua/lsp-kind.lua
 	luafile $HOME/.config/nvim/lua/statusline.lua
 	luafile $HOME/.config/nvim/telescope.lua
+	luafile $HOME/.config/nvim/lua/nvim-bufferline.lua
 
 	" setup lua
 	lua require'colorizer'.setup()
 	" theming 
 	set number relativenumber
-
+  set hidden
 	set background=dark
 	if (has("nvim"))
 	"For Neovim 0.1.3 and 0.1.4 <
@@ -112,6 +118,8 @@ else
   " Window Management
   nnoremap <silent> <leader>s :split<cr>
   nnoremap <silent> <leader>v :vsplit<cr>
+  " a list of groups can be found at `:help nvim_tree_highlight`
+  highlight NvimTreeFolderIcon guifg=#7daea3
 endif
 
 
