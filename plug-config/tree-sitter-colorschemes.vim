@@ -13,10 +13,11 @@ EOF
 let g:nvcode_termcolors=256
 
 syntax on
-colorscheme gruvbox-material " Or whatever colorscheme you make
-let g:gruvbox_material_enable_italic = 1
+colorscheme everforest " Or whatever colorscheme you make
 set background=dark
 
+let g:everforest_background = 'hard'
+let g:everforest_enable_italic = 1
 
 " checks if your terminal has 24-bit color support
 if (has("termguicolors"))

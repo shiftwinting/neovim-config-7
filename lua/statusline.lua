@@ -45,6 +45,15 @@ end
 -- LEFT
 -----------------------------------------------------------
 gls.left[1] = {
+    leftRounded = {
+        provider = function()
+            return ""
+        end,
+        highlight = {colors.bg, colors.bg_dark}
+    }
+}
+
+gls.left[2] = {
     ViMode = {
         provider = function()
             -- auto change color according to vim mode
@@ -91,33 +100,42 @@ gls.left[1] = {
             return ' 異' .. alias
         end,
         separator = ' ',
-        separator_highlight = {'NONE', colors.bg_dark},
-        highlight = {colors.green, colors.bg_dark, 'bold'}
-    }
-}
-
-gls.left[2] = {
-    FileIcon = {
-        provider = 'FileIcon',
-        condition = buffer_not_empty,
-        highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color, colors.bg_dark}
+        separator_highlight = {'NONE', colors.bg},
+        highlight = {colors.green, colors.bg, 'bold'}
     }
 }
 
 gls.left[3] = {
-    FileName = {
-        provider = {'FileName'},
+    FileIcon = {
+        provider = 'FileIcon',
         condition = buffer_not_empty,
-        highlight = {colors.green, colors.bg_dark, 'bold'}
+        highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color, colors.bg}
     }
 }
 
 gls.left[4] = {
+    FileName = {
+        provider = {'FileName'},
+        condition = buffer_not_empty,
+        highlight = {colors.green, colors.bg, 'bold'}
+    }
+}
+
+gls.left[5] = {
     LineInfo = {
         provider = 'LineColumn',
         separator = ' ',
-        separator_highlight = {'NONE', colors.bg_dark},
-        highlight = {colors.astral0, colors.bg_dark}
+        separator_highlight = {'NONE', colors.bg},
+        highlight = {colors.astral0, colors.bg}
+    }
+}
+gls.left[6] = {
+    teech = {
+        provider = function()
+            return ""
+        end,
+        separator = " ",
+        highlight = {colors.bg, colors.bg_dark}
     }
 }
 
@@ -150,31 +168,50 @@ gls.right[3] = {
 }
 
 gls.right[4] = {
+    leftRounded = {
+        provider = function()
+            return ""
+        end,
+        highlight = {colors.bg, colors.bg_dark}
+    }
+}
+gls.right[5] = {
     LanguageServer = {
         provider = active_lsp,
         separator = '  ',
-        separator_highlight = {'NONE', colors.bg_dark},
-        highlight = {colors.green, colors.bg_dark}
+        separator_highlight = {'NONE', colors.bg},
+        highlight = {colors.green, colors.bg}
     }
 }
 
-gls.right[5] = {
+gls.right[6] = {
     GitIcon = {
         provider = function()
             return ' '
         end,
         condition = require('galaxyline.provider_vcs').check_git_workspace,
         separator = '  ',
-        separator_highlight = {'NONE', colors.bg_dark},
-        highlight = {colors.purple, colors.bg_dark}
+        separator_highlight = {'NONE', colors.bg},
+        highlight = {colors.purple, colors.bg}
     }
 }
 
-gls.right[6] = {
+gls.right[7] = {
     GitBranch = {
         provider = 'GitBranch',
         condition = require('galaxyline.provider_vcs').check_git_workspace,
-        highlight = {colors.purple, colors.bg_dark}
+        highlight = {colors.purple, colors.bg},
+        separator_highlight = {'NONE', colors.bg},
+        separator = ' ',
+    }
+}
+
+gls.right[8] = {
+    teech = {
+        provider = function()
+            return ""
+        end,
+        highlight = {colors.bg, colors.bg_dark}
     }
 }
 -- SHORTLINE

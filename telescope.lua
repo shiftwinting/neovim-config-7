@@ -61,6 +61,29 @@ require('telescope').setup {
         }
     },
 }
+
+-- show diffs from a specific commit
+local action_state = require('telescope.actions.state')
+
+local open_dif = function()
+  local selected_entry = action_state.get_selected_entry()
+  local value = selected_entry['value']
+  -- close Telescope window properly prior to switching windows
+  vim.api.nvim_win_close(0, true)
+  local cmd = 'DiffviewOpen ' .. value
+  vim.cmd(cmd)
+end
+
+local git_commit = function()
+    require('telescope.builtin').git_commits({
+      attach_mappings = function(_, map)
+        map('n', '<c-o>', open_dif)
+        return true
+      end
+  })
+end
+-- vimp.noremap('<leader>gd', git_commit)
+
  vim.cmd[[
 autocmd ColorScheme * lua require'nvim-web-devicons'.setup()
 ]]

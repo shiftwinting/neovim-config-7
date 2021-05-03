@@ -56,11 +56,13 @@ call plug#begin()
       " lsp utils
       Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
       " show tags in lsp
-      Plug 'liuchengxu/vista.vim'
       Plug 'APZelos/blamer.nvim'
       Plug 'kyazdani42/nvim-tree.lua'
       Plug 'akinsho/nvim-bufferline.lua'
       Plug 'tpope/vim-abolish'
+      Plug 'sainnhe/everforest'
+      Plug 'sindrets/diffview.nvim'
+      Plug 'svermeulen/vimpeccable'
     endif
 
 call plug#end()
@@ -94,6 +96,7 @@ else
 	luafile $HOME/.config/nvim/lua/statusline.lua
 	luafile $HOME/.config/nvim/telescope.lua
 	luafile $HOME/.config/nvim/lua/nvim-bufferline.lua
+	luafile $HOME/.config/nvim/lua/git-diff.lua
 
 	" setup lua
 	lua require'colorizer'.setup()

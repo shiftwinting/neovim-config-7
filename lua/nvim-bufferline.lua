@@ -32,13 +32,13 @@ require'bufferline'.setup{
         return true
       end
     end,
-    show_buffer_close_icons = true or false,
-    show_close_icon = true or false,
-    show_tab_indicators = true or false,
+    show_buffer_close_icons = true,
+    show_close_icon = true,
+    show_tab_indicators = true,
     persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
     -- can also be a table containing 2 custom separators
     -- [focused and unfocused]. eg: { 'or', 'or' }
-    separator_style = "slant" or "thick" or "thin" or { 'any', 'any' },
+    separator_style = "thin",
     enforce_regular_tabs = false or true,
     always_show_bufferline = true or false,
     sort_by = 'extension' or 'relative_directory' or 'directory' or function(buffer_a, buffer_b)
