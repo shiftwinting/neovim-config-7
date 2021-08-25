@@ -1,6 +1,6 @@
 require'bufferline'.setup{
   options = {
-    view = "multiwindow" or "default",
+    view = "multiwindow",
     numbers = "none" or "ordinal" or "buffer_id" or "both",
     number_style = "superscript" or "" or { "none", "subscript" }, -- buffer_id at index 1, ordinal at index 2
     mappings = true or false,
@@ -11,8 +11,8 @@ require'bufferline'.setup{
     right_trunc_marker = '',
     max_name_length = 18,
     max_prefix_length = 15, -- prefix used when a buffer is deduplicated
-    tab_size = 18,
-    diagnostics = false or "nvim_lsp",
+    tab_size = 20,
+    diagnostics = false,
     diagnostics_indicator = function(count, level, diagnostics_dict)
       return "("..count..")"
     end,
@@ -32,8 +32,8 @@ require'bufferline'.setup{
         return true
       end
     end,
-    show_buffer_close_icons = true,
-    show_close_icon = true,
+    show_buffer_close_icons = false,
+    show_close_icon = false,
     show_tab_indicators = true,
     persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
     -- can also be a table containing 2 custom separators
@@ -47,3 +47,4 @@ require'bufferline'.setup{
     end
   }
 }
+vim.cmd("nnoremap <silent> gb :BufferLinePick<CR>")

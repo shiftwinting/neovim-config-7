@@ -13,14 +13,27 @@ EOF
 let g:nvcode_termcolors=256
 
 syntax on
-colorscheme everforest " Or whatever colorscheme you make
-set background=dark
+lua << EOF
+vim.g.tokyonight_style = "storm"
+EOF
+set nocompatible
+filetype plugin on
+colorscheme tokyonight " Or whatever colorscheme you make
+" set background=light
 
-let g:everforest_background = 'hard'
-let g:everforest_enable_italic = 1
+" let g:everforest_background = 'hard'
+" let g:everforest_enable_italic = 1
 
 " checks if your terminal has 24-bit color support
 if (has("termguicolors"))
     set termguicolors
-    hi LineNr ctermbg=NONE guibg=NONE
+    " enable for transparency
+    " hi Normal guibg=none ctermbg=none
+    " hi LineNr guibg=none ctermbg=none
+    " hi Folded guibg=none ctermbg=none
+    " hi NonText guibg=none ctermbg=none
+    " hi SpecialKey guibg=none ctermbg=none
+    " hi VertSplit guibg=none ctermbg=none
+    " hi SignColumn guibg=none ctermbg=none
+    " hi EndOfBuffer guibg=none ctermbg=none
 endif

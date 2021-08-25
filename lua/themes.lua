@@ -44,6 +44,29 @@ local embark = {
     dark_cyan = "#7d9ea3"
 }
 
+local embark = {
+    bg_dark = "#24283b",
+    bg = "#1f2335",
+    space2 = "#323c41",
+    space3 = "#3E3859",
+    space4 = "#585273",
+    fg_dark = "#D8DEE9",
+    fg = "#ECEFF4",
+    red = "#f7768e",
+    dark_red = "#f7768e",
+    green = "#9ece6a",
+    dark_green = "#9ece6a",
+    yellow = "#dbbc7f",
+    dark_yellow = "#e69875",
+    blue = "#7aa2f7",
+    dark_blue = "#7aa2f7",
+    purple = "#bb9af7",
+    dark_purple = "#bb9af7",
+    cyan = "#2ac3de",
+    dark_cyan = "#7d9ea3"
+}
+
+
 local themes = {embark = embark}
 
 local get_theme = function()

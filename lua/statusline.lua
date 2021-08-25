@@ -180,7 +180,7 @@ gls.right[5] = {
         provider = active_lsp,
         separator = '  ',
         separator_highlight = {'NONE', colors.bg},
-        highlight = {colors.green, colors.bg}
+        highlight = {colors.cyan, colors.bg}
     }
 }
 
