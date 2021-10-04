@@ -66,8 +66,8 @@ local embark = {
     dark_cyan = "#7d9ea3"
 }
 
-
 local themes = {embark = embark}
+
 
 local get_theme = function()
     theme = themes[os.getenv("THEME")] or embark

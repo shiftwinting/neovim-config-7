@@ -2,6 +2,7 @@ local condition = require('galaxyline.condition')
 local testing = require('testing')
 local gl = require('galaxyline')
 local themes = require('themes')
+local gps = require("nvim-gps")
 local gls = gl.section
 gl.short_line_list = {'NvimTree', 'vista_kind', 'dbui'}
 
@@ -121,14 +122,18 @@ gls.left[4] = {
     }
 }
 
-gls.left[5] = {
-    LineInfo = {
-        provider = 'LineColumn',
-        separator = ' ',
-        separator_highlight = {'NONE', colors.bg},
-        highlight = {colors.astral0, colors.bg}
-    }
+gls.left[5]= {
+	nvimGPS = {
+    highlight = {colors.dark_cyan, colors.bg, 'bold'},
+		provider = function()
+			return gps.get_location()
+		end,
+		condition = function()
+			return gps.is_available()
+		end
+	}
 }
+
 gls.left[6] = {
     teech = {
         provider = function()
@@ -176,6 +181,14 @@ gls.right[4] = {
     }
 }
 gls.right[5] = {
+    LineInfo = {
+        provider = 'LineColumn',
+        separator = ' ',
+        separator_highlight = {'NONE', colors.bg},
+        highlight = {colors.astral0, colors.bg}
+    }
+}
+gls.right[6] = {
     LanguageServer = {
         provider = active_lsp,
         separator = '  ',
@@ -184,7 +197,7 @@ gls.right[5] = {
     }
 }
 
-gls.right[6] = {
+gls.right[7] = {
     GitIcon = {
         provider = function()
             return ' '
@@ -196,7 +209,7 @@ gls.right[6] = {
     }
 }
 
-gls.right[7] = {
+gls.right[8] = {
     GitBranch = {
         provider = 'GitBranch',
         condition = require('galaxyline.provider_vcs').check_git_workspace,
@@ -206,7 +219,7 @@ gls.right[7] = {
     }
 }
 
-gls.right[8] = {
+gls.right[9] = {
     teech = {
         provider = function()
             return ""

@@ -16,7 +16,6 @@ call plug#begin()
 	    Plug 'tpope/vim-fugitive'
 	    Plug 'mhinz/vim-startify'
 	    Plug 'airblade/vim-rooter'
-	    Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 	    Plug 'plasticboy/vim-markdown'
 	    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 	    Plug 'norcalli/nvim-colorizer.lua'
@@ -25,13 +24,15 @@ call plug#begin()
 	    Plug 'puremourning/vimspector'
 	    Plug 'christianchiarulli/nvcode-color-schemes.vim'
 	    Plug 'nvim-treesitter/nvim-treesitter'
+      Plug 'SmiteshP/nvim-gps'
 	    Plug 'unblevable/quick-scope'       " Plug
 	    Plug 'justinmk/vim-sneak'
       " file explorer
       " requires 
       " lsp
+      Plug 'gyim/vim-boxdraw'
+      Plug 'nvim-neorg/neorg'
       Plug 'neovim/nvim-lspconfig'
-      Plug 'hrsh7th/nvim-compe'
       Plug 'kabouzeid/nvim-lspinstall'
       Plug 'glepnir/lspsaga.nvim'
       Plug 'onsails/lspkind-nvim'
@@ -68,12 +69,33 @@ call plug#begin()
       " notes
       Plug 'oberblastmeister/neuron.nvim'
       Plug 'nvim-lua/popup.nvim'
-      Plug 'ahmedkhalf/lsp-rooter.nvim'
+      Plug 'ahmedkhalf/project.nvim'
       " Plug 'vhyrro/neorg'
       " Plug 'kristijanhusak/orgmode.nvim'
       Plug 'Shougo/neosnippet.vim'
       Plug 'himkt/docstring.nvim', { 'do': ':UpdateRemotePlugins' }
       Plug 'Shougo/neosnippet-snippets'
+      " completion
+      Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+      Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+      Plug 'lewis6991/gitsigns.nvim'
+      Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+      " completion for neorg TODO remove
+      Plug 'hrsh7th/cmp-nvim-lsp'
+      Plug 'hrsh7th/cmp-buffer'
+      Plug 'hrsh7th/nvim-cmp'
+      Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+      Plug 'L3MON4D3/LuaSnip'
+      Plug 'saadparwaiz1/cmp_luasnip'
+      Plug 'vhyrro/neorg-telescope' 
+      " Orgmode
+      Plug 'kristijanhusak/orgmode.nvim', {'branch': 'tree-sitter'}
+      Plug 'akinsho/org-bullets.nvim'
+      Plug 'dhruvasagar/vim-table-mode'
+      "sidebar
+      Plug 'GustavoKatel/sidebar.nvim'
+      Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
+      Plug 'folke/which-key.nvim'
       endif
 
 call plug#end()
@@ -91,23 +113,33 @@ if exists('g:vscode')
 else
 	source $HOME/.config/nvim/plug-config/toggle-term.vim
 	source $HOME/.config/nvim/plug-config/start-screen.vim
-	source $HOME/.config/nvim/plug-config/rnvimr.vim
+	luafile $HOME/.config/nvim/lua/ts.lua
 	source $HOME/.config/nvim/plug-config/tree-sitter-colorschemes.vim
-	source $HOME/.config/nvim/plug-config/signify.vim
 	source $HOME/.config/nvim/plug-config/sneak.vim
 	source $HOME/.config/nvim/plug-config/nvim-tree.vim
 	source $HOME/.config/nvim/plug-config/closetags.vim
+	source $HOME/.config/nvim/plug-config/neovide.vim
 	source $HOME/.config/nvim/plug-config/lsp.vim
   luafile $HOME/.config/nvim/lua/lsp_conf.lua
 	luafile $HOME/.config/nvim/lua/lsp-saga.lua
 	luafile $HOME/.config/nvim/lua/lsp-kind.lua
+	luafile $HOME/.config/nvim/lua/project-nvim-conf.lua
 	luafile $HOME/.config/nvim/lua/statusline.lua
 	luafile $HOME/.config/nvim/telescope.lua
 	luafile $HOME/.config/nvim/lua/nvim-bufferline.lua
 	luafile $HOME/.config/nvim/lua/git-diff.lua
+	luafile $HOME/.config/nvim/lua/git-signs.lua
+	luafile $HOME/.config/nvim/lua/nvim-gps-conf.lua
 	luafile $HOME/.config/nvim/lua/symbols.lua
 	luafile $HOME/.config/nvim/lua/plug-colorizer.lua
-	luafile $HOME/.config/nvim/lua/compe-config.lua
+	luafile $HOME/.config/nvim/lua/norg.lua
+	luafile $HOME/.config/nvim/lua/org.lua
+	luafile $HOME/.config/nvim/lua/coq-settings.lua
+	luafile $HOME/.config/nvim/lua/side-bar.lua
+	luafile $HOME/.config/nvim/lua/cmp-settings.lua
+	luafile $HOME/.config/nvim/lua/tabnine-conf.lua
+	luafile $HOME/.config/nvim/lua/which.lua
+	luafile $HOME/.config/nvim/lua/tree.lua
 
 	" theming 
 	set number relativenumber
@@ -122,6 +154,7 @@ else
   let g:kitty_navigator_no_mappings = 1
   set title
   let &titlestring='%t - nvim'
+  let g:pydocstring_enable_mapping = 0
 
   nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
   nnoremap <silent> <c-j> :KittyNavigateDown<cr>
@@ -132,11 +165,6 @@ else
   nnoremap <silent> <leader>v :vsplit<cr>
   " a list of groups can be found at `:help nvim_tree_highlight`
   highlight NvimTreeFolderIcon guifg=#2ac3de
-  inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 " enable mouse support
   "
   set mouse=a
@@ -162,6 +190,27 @@ else
   source $HOME/.config/nvim/plug-config/telescope.vim
 
 endif
+
+autocmd Filetype org TableModeEnable
+ autocmd FileType norg lua require'cmp'.setup.buffer {
+ \   enabled= true,
+ \   sources = {
+ \     { name = 'nvim_lua' },
+ \     {name = 'neorg'},
+ \     { name = 'buffer' },
+ \   },
+ \ }
+
+ autocmd FileType org lua require'cmp'.setup.buffer {
+ \   enabled= true,
+ \   sources = {
+ \     { name = 'nvim_lua' },
+ \     {name = 'orgmode'},
+ \     { name = 'buffer' },
+ \   },
+ \ }
+
+
 lua << EOF
   require'nvim-treesitter.configs'.setup {
 }

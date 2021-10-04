@@ -1,6 +1,7 @@
 local lspconfig = require 'lspconfig'
 local configs = require 'lspconfig/configs'
 
+local coq = require "coq" -- add this
 
 local function documentHighlight(client, bufnr)
     -- Set autocommands conditional on server_capabilities
@@ -42,11 +43,11 @@ function lsp_config.common_on_attach(client, bufnr)
 end
 
 function lsp_config.tsserver_on_attach(client, bufnr)
-   require("nvim-lsp-ts-utils").setup {
-            -- defaults
-            disable_commands = false,
-            enable_import_on_completion = false
-        }
+    require("nvim-lsp-ts-utils").setup {
+        -- defaults
+        disable_commands = false,
+        enable_import_on_completion = true
+    }
     client.resolved_capabilities.document_formatting = false
     lsp_config.common_on_attach(client, bufnr)
 end
@@ -67,9 +68,12 @@ local flake8 = {
 
 local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}
 
-local prettier_global = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
+local prettier_global = {
+    formatCommand = 'prettier_d_slim prefer-file --stdin --stdin-filepath ${INPUT}',
+    formatStdin = true
+}
 -- local black = {formatCommand = "black --quiet -", formatStdin = true}
-local isort = {formatCommand = "black --quiet -", formatStdin = true}
+local isort = {formatCommand = "/home/dim/Desktop/blackd-client/target/debug/blackd-client", formatStdin = true}
 local eslint = {
     lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}",
     lintStdin = true,
@@ -95,13 +99,13 @@ require"lspconfig".efm.setup {
         rootMarkers = {".git/"},
         languages = {
             lua = {luaFormat},
-            python = {flake8, isort},
+            python = {isort},
             -- javascriptreact = {prettier, eslint},
             -- javascript = {prettier, eslint},
-            javascriptreact = {eslint, prettier},
-            javascript = {eslint, prettier},
-            typescriptreact = {eslint, prettier},
-            typescript = {eslint, prettier},
+            javascriptreact = {eslint, prettier_global},
+            javascript = {eslint, prettier_global},
+            typescriptreact = {eslint, prettier_global},
+            typescript = {eslint, prettier_global},
             sh = {shellcheck, shfmt},
             html = {prettier_global},
             css = {prettier_global},
@@ -113,31 +117,21 @@ require"lspconfig".efm.setup {
     }
 }
 
--- Also find way to toggle format on save
--- maybe this will help: https://superuser.com/questions/439078/how-to-disable-autocmd-or-augroup-in-vim
-
--- npm install -g typescript typescript-language-server
--- require'snippets'.use_suggested_mappings()
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true;
--- local on_attach_common = function(client)
--- print("LSP Initialized")
--- require'completion'.on_attach(client)
--- require'illuminate'.on_attach(client)
--- end
-require'lspconfig'.tsserver.setup {
+require'lspconfig'.tsserver.setup({
     cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
     on_attach = lsp_config.tsserver_on_attach,
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     settings = {documentFormatting = false}
-}
+})
 
 -- https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone)
 local sumneko_root_path = DATA_PATH .. "/lspinstall/lua"
 local sumneko_binary = sumneko_root_path .. "/sumneko-lua-language-server"
 
-require'lspconfig'.sumneko_lua.setup {
+require'lspconfig'.sumneko_lua.setup({
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
     on_attach = lsp_config.common_on_attach,
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     settings = {
         Lua = {
             runtime = {
@@ -156,7 +150,8 @@ require'lspconfig'.sumneko_lua.setup {
             }
         }
     }
-}
+})
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = false,
     underline = true,
@@ -166,29 +161,12 @@ vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnos
 -- vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 
 -- Python
-require'lspconfig'.pyright.setup {
+require'lspconfig'.pyright.setup({
     cmd = {DATA_PATH .. "/lspinstall/python/node_modules/.bin/pyright-langserver", "--stdio"},
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     on_attach = lsp_config.common_on_attach
-}
-
-if not lspconfig.kite then
-      configs.kite = {
-        default_config = {
-            cmd = {'/home/dim/.local/share/kite/current/kite-lsp'},
-            filetypes = {'python'},
-            root_dir = function(fname)
-                return lspconfig.util.find_git_ancestor(fname) or
-                           vim.loop.os_homedir()
-            end,
-            -- settings = {},
-            on_attach = lsp_config.common_on_attach
-        }
-    }
-
-end
-lspconfig.kite.setup {}
-
-
+    -- settings = {python = {analysis = {autoSearchPaths = true, diagnosticMode = 'openFilesOnly'}}}
+})
 
 -- Format Options
 vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")
