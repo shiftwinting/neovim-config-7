@@ -1,6 +1,9 @@
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 require'nvim-tree'.setup {
-    update_cwd = 1,
+    update_cwd = true,
+    update_focused_file = {enable = true},
+    update_to_buf_dir = {enable = true},
+    hjack_cursor = true,
     bindings = {
         {key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit")},
         {key = {"<2-RightMouse>", "<C-]>"}, cb = tree_cb("cd")}, {key = "<C-v>", cb = tree_cb("vsplit")},

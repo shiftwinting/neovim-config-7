@@ -34,7 +34,7 @@ call plug#begin()
       Plug 'nvim-neorg/neorg'
       Plug 'neovim/nvim-lspconfig'
       Plug 'kabouzeid/nvim-lspinstall'
-      Plug 'glepnir/lspsaga.nvim'
+      Plug 'rinx/lspsaga.nvim'
       Plug 'onsails/lspkind-nvim'
       Plug 'alvan/vim-closetag'
       Plug 'jiangmiao/auto-pairs'
@@ -57,13 +57,17 @@ call plug#begin()
       " show tags in lsp
       Plug 'APZelos/blamer.nvim'
       Plug 'kyazdani42/nvim-tree.lua'
-      Plug 'akinsho/nvim-bufferline.lua'
+      Plug 'akinsho/tabs.lua'
+      Plug 'akinsho/bufferline.nvim'
       Plug 'tpope/vim-abolish'
       Plug 'sindrets/diffview.nvim'
       Plug 'svermeulen/vimpeccable'
       Plug 'mlaursen/vim-react-snippets'
       Plug 'vimwiki/vimwiki'
+      " Themes
+      Plug 'projekt0n/github-nvim-theme'
       Plug 'folke/tokyonight.nvim'
+      Plug 'ayu-theme/ayu-vim' " or other package manager
       Plug 'xolox/vim-notes'
       Plug 'xolox/vim-misc'
       " notes
@@ -83,6 +87,8 @@ call plug#begin()
       " completion for neorg TODO remove
       Plug 'hrsh7th/cmp-nvim-lsp'
       Plug 'hrsh7th/cmp-buffer'
+      Plug 'lukas-reineke/cmp-under-comparator'
+      Plug 'nanozuki/tabby.nvim',
       Plug 'hrsh7th/nvim-cmp'
       Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
       Plug 'L3MON4D3/LuaSnip'
@@ -96,6 +102,11 @@ call plug#begin()
       Plug 'GustavoKatel/sidebar.nvim'
       Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
       Plug 'folke/which-key.nvim'
+      " File manager
+      Plug 'luukvbaal/nnn.nvim'
+      " status lsp
+      Plug 'doums/lsp_spinner.nvim'
+      Plug 'RRethy/nvim-base16'
       endif
 
 call plug#end()
@@ -111,6 +122,8 @@ if exists('g:vscode')
 	nmap gcc <Plug>VSCodeCommentaryLine
 
 else
+  " let g:coq_settings = { 'auto_start': v:true }
+	luafile $HOME/.config/nvim/lua/spinner.lua
 	source $HOME/.config/nvim/plug-config/toggle-term.vim
 	source $HOME/.config/nvim/plug-config/start-screen.vim
 	luafile $HOME/.config/nvim/lua/ts.lua
@@ -126,7 +139,7 @@ else
 	luafile $HOME/.config/nvim/lua/project-nvim-conf.lua
 	luafile $HOME/.config/nvim/lua/statusline.lua
 	luafile $HOME/.config/nvim/telescope.lua
-	luafile $HOME/.config/nvim/lua/nvim-bufferline.lua
+	luafile $HOME/.config/nvim/lua/tabs.lua
 	luafile $HOME/.config/nvim/lua/git-diff.lua
 	luafile $HOME/.config/nvim/lua/git-signs.lua
 	luafile $HOME/.config/nvim/lua/nvim-gps-conf.lua
@@ -134,10 +147,11 @@ else
 	luafile $HOME/.config/nvim/lua/plug-colorizer.lua
 	luafile $HOME/.config/nvim/lua/norg.lua
 	luafile $HOME/.config/nvim/lua/org.lua
-	luafile $HOME/.config/nvim/lua/coq-settings.lua
 	luafile $HOME/.config/nvim/lua/side-bar.lua
 	luafile $HOME/.config/nvim/lua/cmp-settings.lua
+	" luafile $HOME/.config/nvim/lua/coq-settings.lua
 	luafile $HOME/.config/nvim/lua/tabnine-conf.lua
+	luafile $HOME/.config/nvim/lua/nnn-conf.lua
 	luafile $HOME/.config/nvim/lua/which.lua
 	luafile $HOME/.config/nvim/lua/tree.lua
 
@@ -155,6 +169,7 @@ else
   set title
   let &titlestring='%t - nvim'
   let g:pydocstring_enable_mapping = 0
+
 
   nnoremap <silent> <c-h> :KittyNavigateLeft<cr>
   nnoremap <silent> <c-j> :KittyNavigateDown<cr>
@@ -188,6 +203,8 @@ else
   let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
   source $HOME/.config/nvim/plug-config/lsp-saga.vim
   source $HOME/.config/nvim/plug-config/telescope.vim
+  let g:pydocstring_formatter = 'google'
+  nnoremap <silent> <leader>dc :PydocstringFormat<cr>
 
 endif
 

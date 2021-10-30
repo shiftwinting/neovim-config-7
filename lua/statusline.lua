@@ -3,6 +3,7 @@ local testing = require('testing')
 local gl = require('galaxyline')
 local themes = require('themes')
 local gps = require("nvim-gps")
+local lsp_spinner = require('lsp_spinner')
 local gls = gl.section
 gl.short_line_list = {'NvimTree', 'vista_kind', 'dbui'}
 
@@ -115,23 +116,27 @@ gls.left[3] = {
 }
 
 gls.left[4] = {
-    FileName = {
-        provider = {'FileName'},
-        condition = buffer_not_empty,
-        highlight = {colors.green, colors.bg, 'bold'}
-    }
+    FileName = {provider = {'FileName'}, condition = buffer_not_empty, highlight = {colors.green, colors.bg, 'bold'}}
 }
 
-gls.left[5]= {
-	nvimGPS = {
-    highlight = {colors.dark_cyan, colors.bg, 'bold'},
-		provider = function()
-			return gps.get_location()
-		end,
-		condition = function()
-			return gps.is_available()
-		end
-	}
+-- gls.left[5] = {
+--     nvimGPS = {
+--         highlight = {colors.dark_cyan, colors.bg, 'bold'},
+--         provider = function()
+--             return gps.get_location()
+--         end,
+--         condition = function()
+--             return gps.is_available()
+--         end
+--     }
+-- }
+gls.left[5] = {
+    nvimLspStatus = {
+        highlight = {colors.dark_cyan, colors.bg, 'bold'},
+        provider = function()
+            return lsp_spinner.status(0)
+        end
+    }
 }
 
 gls.left[6] = {
@@ -215,7 +220,7 @@ gls.right[8] = {
         condition = require('galaxyline.provider_vcs').check_git_workspace,
         highlight = {colors.purple, colors.bg},
         separator_highlight = {'NONE', colors.bg},
-        separator = ' ',
+        separator = ' '
     }
 }
 

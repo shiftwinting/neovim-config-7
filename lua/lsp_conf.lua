@@ -1,6 +1,7 @@
 local lspconfig = require 'lspconfig'
 local configs = require 'lspconfig/configs'
 
+local lsp_spinner = require('lsp_spinner')
 local coq = require "coq" -- add this
 
 local function documentHighlight(client, bufnr)
@@ -33,6 +34,7 @@ vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
 end
 
 function lsp_config.common_on_attach(client, bufnr)
+    lsp_spinner.on_attach(client, bufnr)
     if client.resolved_capabilities.document_formatting then
         vim.api.nvim_command [[augroup Format]]
         vim.api.nvim_command [[autocmd! * <buffer>]]
@@ -164,9 +166,21 @@ vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnos
 require'lspconfig'.pyright.setup({
     cmd = {DATA_PATH .. "/lspinstall/python/node_modules/.bin/pyright-langserver", "--stdio"},
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    on_attach = lsp_config.common_on_attach
+    on_attach = lsp_config.common_on_attach,
+    flags = {debounce_text_changes = 150},
+    settings = {
+        python = {
+            analysis = {autoSearchPaths = false, useLibraryCodeForTypes = false, diagnosticMode = 'openFilesOnly'}
+        }
+    }
     -- settings = {python = {analysis = {autoSearchPaths = true, diagnosticMode = 'openFilesOnly'}}}
 })
+
+local diagnostic_signs = {Error = '', Warn = '', Hint = '', Info = ''}
+for type, icon in pairs(diagnostic_signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ""})
+end
 
 -- Format Options
 vim.cmd("autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1200)")

@@ -10,6 +10,7 @@ EOF
 set nocompatible
 filetype plugin on
 colorscheme tokyonight " Or whatever colorscheme you make
+let ayucolor="mirage" " for mirage version of themeS
 " set background=light
 
 " let g:everforest_background = 'hard'

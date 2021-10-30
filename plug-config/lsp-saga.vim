@@ -7,7 +7,6 @@ nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 " signature
 nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 nnoremap <silent><leader>ca :Lspsaga code_action<CR>
-nnoremap <silent>rn :Lspsaga rename<CR>
 
 " highlight LspSagaBorderTitle guifg=#ddc7a1
 " highlight LspSagaRenameBorder guifg=#ddc7a1
