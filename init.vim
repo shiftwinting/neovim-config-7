@@ -107,6 +107,8 @@ call plug#begin()
       " status lsp
       Plug 'doums/lsp_spinner.nvim'
       Plug 'RRethy/nvim-base16'
+      Plug 'windwp/nvim-spectre'
+      Plug 'kaputi/e-kaput.nvim'
       endif
 
 call plug#end()
@@ -133,6 +135,7 @@ else
 	source $HOME/.config/nvim/plug-config/closetags.vim
 	source $HOME/.config/nvim/plug-config/neovide.vim
 	source $HOME/.config/nvim/plug-config/lsp.vim
+	source $HOME/.config/nvim/plug-config/spectre.vim
   luafile $HOME/.config/nvim/lua/lsp_conf.lua
 	luafile $HOME/.config/nvim/lua/lsp-saga.lua
 	luafile $HOME/.config/nvim/lua/lsp-kind.lua
@@ -187,7 +190,7 @@ else
   " set cursorline
   set noshowmode
   " set colorcolumn=120
-  let g:mkdp_browser = 'chromium'
+  let g:mkdp_browser = 'firefox'
   set cmdheight=1
 
   " Identation

@@ -156,11 +156,22 @@ require'lspconfig'.sumneko_lua.setup({
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = false,
-    underline = true,
-    signs = true
+    underline = true
+    -- signs = true
 })
-vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
+-- vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
 -- vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
+-- Diagnostics
+require('e-kaput').setup({
+    -- defaults
+    enabled = true, -- true | false,  Enable EKaput.
+    transparency = 25, -- 0 - 100 , transparecy percentage.
+    borders = true, -- true | false, Borders.
+    error_sign = '', -- Error sign.
+    warning_sign = '', -- Warning sign.
+    information_sign = '', -- Information sign.
+    hint_sign = '' -- Hint sign.
+})
 
 -- Python
 require'lspconfig'.pyright.setup({

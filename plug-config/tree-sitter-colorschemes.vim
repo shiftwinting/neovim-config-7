@@ -5,7 +5,7 @@ let g:nvcode_termcolors=256
 
 syntax on
 lua << EOF
-vim.g.tokyonight_style = "storm"
+vim.g.tokyonight_style = "dark"
 EOF
 set nocompatible
 filetype plugin on
